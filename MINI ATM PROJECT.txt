@@ -1,0 +1,138 @@
+
+# MINI ATM SYSTEM
+
+name = "Sana"
+account_number = "1234567890"
+pin = "1234"
+balance = 11500
+minimum_balance = 5000
+transactions = []
+
+print("===== WELCOME TO MINI ATM =====")
+print("Welcome", name)
+
+attempts = 3
+
+while attempts > 0:
+    entered_pin = input("Enter your ATM PIN: ")
+
+    if entered_pin == pin:
+        print("\nPIN verified successfully!")
+
+        while True:
+            print("\n===== ATM MENU =====")
+            print("1. Account Details")
+            print("2. Check Balance")
+            print("3. Withdraw Money")
+            print("4. Deposit Money")
+            print("5. Fast Cash")
+            print("6. Change PIN")
+            print("7. Mini Statement")
+            print("8. Exit")
+
+            choice = input("Enter your choice: ")
+
+            if choice == "1":
+                print("Account Holder:", name)
+                print("Account Number:", account_number)
+                print("Minimum Balance: Rs.", minimum_balance)
+
+            elif choice == "2":
+                print("Available Balance: Rs.", balance)
+
+            elif choice == "3":
+                amount = int(input("Enter withdrawal amount: "))
+
+                if amount > 0 and balance - amount >= minimum_balance:
+                    balance = balance - amount
+                    transactions.append("Withdrawn: Rs. " + str(amount))
+                    print("Please collect your cash.")
+                    print("Remaining Balance:", balance)
+                else:
+                    print("Insufficient balance or invalid amount!")
+
+            elif choice == "4":
+                amount = int(input("Enter deposit amount: "))
+
+                if amount > 0:
+                    balance = balance + amount
+                    transactions.append("Deposited: Rs. " + str(amount))
+                    print("Deposit successful!")
+                    print("Updated Balance:", balance)
+                else:
+                    print("Invalid amount!")
+
+            elif choice == "5":
+                print("\n1. Rs. 500")
+                print("2. Rs. 1000")
+                print("3. Rs. 2000")
+                print("4. Rs. 5000")
+
+                fast_choice = input("Select amount: ")
+
+                if fast_choice == "1":
+                    amount = 500
+                elif fast_choice == "2":
+                    amount = 1000
+                elif fast_choice == "3":
+                    amount = 2000
+                elif fast_choice == "4":
+                    amount = 5000
+                else:
+                    amount = 0
+
+                if amount > 0 and balance - amount >= minimum_balance:
+                    balance = balance - amount
+                    transactions.append("Fast Cash: Rs. " + str(amount))
+                    print("Please collect your cash.")
+                    print("Remaining Balance:", balance)
+                else:
+                    print("Invalid choice or insufficient balance!")
+
+            elif choice == "6":
+                old_pin = input("Enter your current PIN: ")
+
+                if old_pin == pin:
+                    new_pin = input("Enter new PIN: ")
+                    confirm_pin = input("Confirm new PIN: ")
+
+                    if len(new_pin) == 4 and new_pin.isdigit():
+                        if new_pin == confirm_pin:
+                            pin = new_pin
+                            print("PIN changed successfully!")
+                        else:
+                            print("PINs do not match!")
+                    else:
+                        print("PIN must contain exactly 4 digits!")
+                else:
+                    print("Incorrect current PIN!")
+
+            elif choice == "7":
+                print("\n===== MINI STATEMENT =====")
+
+                if len(transactions) == 0:
+                    print("No transactions found.")
+                else:
+                    for transaction in transactions[-5:]:
+                        print(transaction)
+
+                print("Current Balance:", balance)
+
+            elif choice == "8":
+                print("Thank you for using Mini ATM!")
+                break
+
+            else:
+                print("Invalid choice!")
+
+        break
+
+    else:
+        attempts = attempts - 1
+
+        if attempts > 0:
+            print("Incorrect PIN!")
+            print("Remaining attempts:", attempts)
+        else:
+            print("ATM access blocked due to 3 incorrect attempts!")
+
